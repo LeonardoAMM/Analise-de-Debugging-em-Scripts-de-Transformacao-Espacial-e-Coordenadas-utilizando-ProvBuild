@@ -89,7 +89,7 @@ for index, hospital in hospitals.iterrows():
     all_hospitals.append(hospital["name"])
     all_distances.append(distance)
 
-    if is_inside_radius(distance, radius_m):
+    if is_inside_radius(distance, radius_km):
         hospital_names.append(hospital["name"])
         distance_values.append(distance)
 

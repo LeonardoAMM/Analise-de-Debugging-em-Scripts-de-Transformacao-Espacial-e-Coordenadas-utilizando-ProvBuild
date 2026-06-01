@@ -43,7 +43,6 @@ def rotacionar_eixo_z(vetor, angulo_graus):
     return multiplicar_matriz_vetor(matriz_rot_z, vetor)
 
 def aplicar_perspectiva(vetor, distancia_camera, largura_tela, altura_tela):
-    """Transforma o espaco 3D para coordenadas 2D de tela."""
     x, y, z = vetor
     
     # Previne divisao por zero
@@ -60,7 +59,6 @@ def aplicar_perspectiva(vetor, distancia_camera, largura_tela, altura_tela):
     return [x_projetado, y_projetado]
 
 def gerar_codigo_svg(pontos_2d, arestas, largura, altura):
-    """Gera uma imagem vetorial desenhando as linhas espaciais."""
     linhas_svg = []
     linhas_svg.append('<svg xmlns="http://www.w3.org/2000/svg" width="{}" height="{}" style="background-color: #1a1a1a;">'.format(largura, altura))
     
@@ -82,7 +80,7 @@ def gerar_codigo_svg(pontos_2d, arestas, largura, altura):
     return "\n".join(linhas_svg)
 
 # ==========================================
-# LÓGICA PRINCIPAL (Raiz do Arquivo para o ProvBuild Ler)
+# LÓGICA PRINCIPAL
 # ==========================================
 
 # 1. Definicao da Geometria do Cubo no Espaco
@@ -127,5 +125,3 @@ texto_imagem_vetorial = gerar_codigo_svg(pontos_finais_2d, arestas_cubo, resoluc
 arquivo_saida = open("cubo_renderizado.svg", "w")
 arquivo_saida.write(texto_imagem_vetorial)
 arquivo_saida.close()
-
-print "Transformacao espacial concluida! Abra o arquivo 'cubo_renderizado.svg' no seu navegador."

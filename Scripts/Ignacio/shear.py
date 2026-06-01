@@ -19,7 +19,7 @@ def shear(vector, angle):
 
 def rotate(vector, angle):
     mat = [
-        [math.cos(angle), -math.sin(angle)],
+        [math.cos(angle), math.sin(angle)],
         [math.sin(angle), math.cos(angle)]
     ]
 

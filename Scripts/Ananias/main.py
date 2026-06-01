@@ -1,8 +1,11 @@
 import pandas as pd
 from transformations import convert_coordinates
-from analysis import calculate_distance
+from analysis import *
 from visualization import plot_points
 
+# Configuração da análise espacial
+POINT_NUM = 1
+BUFFER_RADIUS = 3
 
 # Lê o arquivo CSV contendo os hospitais
 hospitals = pd.read_csv("data/hospitals.csv")
@@ -14,10 +17,6 @@ points = pd.read_csv("data/points.csv")
 # Cria listas vazias para armazenar as coordenadas UTM dos hospitais
 hospital_x = []
 hospital_y = []
-
-# Inicializa as variaveis que armazenam a quantidade de hospitais e pontos
-qntd_hospitais = 0
-qntd_pontos = 0
 
 
 # Percorre cada hospital do DataFrame
@@ -32,9 +31,6 @@ for index, row in hospitals.iterrows():
     # Armazena as coordenadas convertidas nas listas
     hospital_x.append(x)
     hospital_y.append(y)
-
-    # Contabiliza a quantidade de hospitais
-    qntd_hospitais += 1
 
 
 # Adiciona as coordenadas UTM como novas colunas no DataFrame de hospitais
@@ -60,40 +56,56 @@ for index, row in points.iterrows():
     point_x.append(x)
     point_y.append(y)
 
-    # Contabiliza a quantidade de pontos
-    qntd_pontos += 1
 
 
 # Adiciona as coordenadas UTM como novas colunas no DataFrame de pontos
 points["x"] = point_x
 points["y"] = point_y
 
-# Inicializa vetores para armazenar as distancias 
-distance_hospitals = []
-distance_points = []
+# Seleciona o ponto de referência
+selected_point = points.loc[POINT_NUM-1]
+
+# Raio em quilômetros
+radius_km = BUFFER_RADIUS
+
+# Conversão para metros
+radius_m = radius_km * 1000
+
+hospital_names = []
 distance_values = []
 
-# Para cada hospital, calcula a distância entre todos os pontos usando as coordenadas já convertidas para UTM e as armazena
-for i in range(qntd_hospitais):
-    hospital = hospitals.loc[i]
-    for j in range(qntd_pontos):
-        point = points.loc[j]
+all_hospitals = []
+all_distances = []
 
-        distance = calculate_distance(
-            hospital["x"],
-            hospital["y"],
-            point["x"],
-            point["y"]
-        )
-        
-        distance_hospitals.append(hospital["name"])
-        distance_points.append(point["name"])
+for index, hospital in hospitals.iterrows():
+
+    distance = calculate_distance(
+        hospital["x"],
+        hospital["y"],
+        selected_point["x"],
+        selected_point["y"]
+    )
+
+    all_hospitals.append(hospital["name"])
+    all_distances.append(distance)
+
+    if is_inside_radius(distance, radius_km):
+        hospital_names.append(hospital["name"])
         distance_values.append(distance)
 
-distance_dataframe = pd.DataFrame({
-    "hospital": distance_hospitals,
-    "point": distance_points,
+# DataFrame com todos os hospitais
+table_dataframe = pd.DataFrame({
+    "hospital": all_hospitals,
+    "distance": all_distances
+})
+
+# DataFrame apenas com os hospitais encontrados
+result_dataframe = pd.DataFrame({
+    "hospital": hospital_names,
     "distance": distance_values
 })
 
-plot_points(hospitals, points, distance_dataframe)
+
+
+# Visualização
+plot_points(hospitals, selected_point, result_dataframe, table_dataframe, radius_m)

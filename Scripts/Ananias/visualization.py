@@ -3,9 +3,11 @@ from matplotlib.patches import Circle
 from matplotlib.patches import Patch
 
 
-def plot_points(hospitals, selected_point, result_dataframe, table_dataframe, radius_m):
-
+def create_plot():
     fig, ax = plt.subplots(figsize=(12, 10))
+    return fig, ax
+
+def plot_hospitals(ax, hospitals):
 
     # Plota todos os hospitais
     ax.scatter(
@@ -13,6 +15,7 @@ def plot_points(hospitals, selected_point, result_dataframe, table_dataframe, ra
         hospitals["y"] / 1000,
         label="Hospitais"
     )
+
 
     # Escreve o nome dos hospitais
     for _, hospital in hospitals.iterrows():
@@ -22,6 +25,9 @@ def plot_points(hospitals, selected_point, result_dataframe, table_dataframe, ra
             hospital["y"] / 1000 + 0.1,
             hospital["name"]
         )
+
+
+def plot_task1(ax, hospitals, selected_point, result_dataframe, table_dataframe, radius_m):
 
     # Plota o ponto selecionado
     ax.scatter(
@@ -152,4 +158,13 @@ def plot_points(hospitals, selected_point, result_dataframe, table_dataframe, ra
         bbox_to_anchor=(-0.01, -0.15)
     )
 
-    plt.show()
+
+
+
+
+
+
+
+########################################################################################
+
+

@@ -6,10 +6,7 @@ from visualization import *
 
 def calculate_distance(x1, y1, x2, y2):
 
-    distance = math.sqrt(
-        (x2 - x1) ** 2 +
-        (y2 - y1) ** 2
-    )
+    distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
     return distance
 
@@ -37,10 +34,7 @@ def store_data(hospitals, points):
     for index, row in hospitals.iterrows():
 
         # Converte latitude/longitude para coordenadas UTM
-        x, y = convert_coordinates(
-            row["latitude"],
-            row["longitude"]
-        )
+        x, y = convert_coordinates(row["latitude"], row["longitude"])
 
         # Armazena as coordenadas convertidas nas listas
         hospital_x.append(x)
@@ -61,10 +55,7 @@ def store_data(hospitals, points):
     for index, row in points.iterrows():
 
         # Converte latitude/longitude para coordenadas UTM
-        x, y = convert_coordinates(
-            row["latitude"],
-            row["longitude"]
-        )
+        x, y = convert_coordinates(row["latitude"], row["longitude"])
 
         # Armazena as coordenadas convertidas nas listas
         point_x.append(x)

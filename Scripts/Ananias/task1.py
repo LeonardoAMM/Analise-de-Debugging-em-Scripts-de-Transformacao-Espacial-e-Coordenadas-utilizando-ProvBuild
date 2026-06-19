@@ -30,12 +30,7 @@ all_distances = []
 
 for index, hospital in hospitals.iterrows():
 
-    distance = calculate_distance(
-        hospital["x"],
-        hospital["y"],
-        selected_point["x"],
-        selected_point["y"]
-    )
+    distance = calculate_distance(hospital["x"], hospital["y"], selected_point["x"], selected_point["y"])
 
     all_hospitals.append(hospital["name"])
     all_distances.append(distance)
@@ -45,16 +40,10 @@ for index, hospital in hospitals.iterrows():
         distance_values.append(distance)
 
 # DataFrame com todos os hospitais
-table_dataframe = pd.DataFrame({
-    "hospital": all_hospitals,
-    "distance": all_distances
-})
+table_dataframe = pd.DataFrame({"hospital": all_hospitals, "distance": all_distances})
 
 # DataFrame apenas com os hospitais encontrados
-result_dataframe = pd.DataFrame({
-    "hospital": hospital_names,
-    "distance": distance_values
-})
+result_dataframe = pd.DataFrame({"hospital": hospital_names, "distance": distance_values})
 
 
 
@@ -63,13 +52,6 @@ fig, ax = create_plot()
 
 plot_hospitals(ax, hospitals)
 
-plot_task1(
-    ax,
-    hospitals,
-    selected_point,
-    result_dataframe,
-    table_dataframe,
-    radius_m
-)
+plot_task1(ax, hospitals, selected_point, result_dataframe, table_dataframe,radius_m)
 
 plt.show()

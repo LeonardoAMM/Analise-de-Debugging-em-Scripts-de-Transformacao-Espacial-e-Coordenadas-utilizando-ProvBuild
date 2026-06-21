@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import pandas as pd
 from transformations import convert_coordinates
 from general_functions import *

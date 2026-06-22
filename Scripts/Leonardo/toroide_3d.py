@@ -137,10 +137,7 @@ for u in xrange(0, 360, PASSO_ANGULAR):
 # 3. Renderizacao Final
 codigo_imagem_svg = desenhar_malha_svg(linhas_para_renderizar, LARGURA_TELA, ALTURA_TELA)
 
-# 4. Escrita no Disco
+# 4. Salvar no Pc
 arquivo_final = open("toroide_neon.svg", "w")
 arquivo_final.write(codigo_imagem_svg)
 arquivo_final.close()
-
-print "Renderizacao do Toroide concluida com sucesso!"
-print "Abra o arquivo 'toroide_neon.svg' no seu navegador."

@@ -3,7 +3,6 @@ import math
 
 def calcular_altura_terreno(x, z, amplitude, frequencia):
     """Calcula a altura Y do terreno no espaco 3D usando ondas senoidais."""
-    # Calcula a distancia do ponto (x, z) ate o centro (0, 0)
     distancia_centro = math.sqrt(x*x + z*z)
     
     altura_onda = amplitude * math.sin(distancia_centro * frequencia)
@@ -13,7 +12,6 @@ def calcular_altura_terreno(x, z, amplitude, frequencia):
     return altura_onda + ruido_extra
 
 def projetar_isometrico(x, y, z, escala, tela_centro_x, tela_centro_y):
-    # Constantes da projecao isometrica (Angulo de 30 graus)
     cos30 = 0.866025
     sin30 = 0.5
     
@@ -44,7 +42,6 @@ def desenhar_terreno_svg(poligonos, largura, altura):
     linhas.append('<svg xmlns="http://www.w3.org/2000/svg" width="{}" height="{}" style="background-color: #0b0c10;">'.format(largura, altura))
     
     for poli in poligonos:
-        # Cada poli tem: [p1, p2, p3, p4, cor_preenchimento]
         p1, p2, p3, p4, cor = poli
         pontos_str = "{},{} {},{} {},{} {},{}".format(
             p1[0], p1[1], p2[0], p2[1], p3[0], p3[1], p4[0], p4[1]
@@ -59,12 +56,10 @@ def desenhar_terreno_svg(poligonos, largura, altura):
 # LÓGICA PRINCIPAL
 # ==========================================
 
-# Configurações da Câmera e Imagem
 RESOLUCAO_X = 1000
 RESOLUCAO_Y = 800
 ESCALA_ZOOM = 25.0
 
-# Configurações do Espaço Geométrico
 TAMANHO_GRADE = 15
 AMPLITUDE_ONDA = 4.0      # Altura das montanhas
 FREQUENCIA_ONDA = 0.4     # Quantidade de ondulações
@@ -76,10 +71,8 @@ for coord_x in xrange(-TAMANHO_GRADE, TAMANHO_GRADE + 1):
         coord_y = calcular_altura_terreno(coord_x, coord_z, AMPLITUDE_ONDA, FREQUENCIA_ONDA)
         malha_3d[(coord_x, coord_z)] = coord_y
 
-# Projeção 2D e Criação dos Polígonos (Quadrados da Malha)
 lista_poligonos_2d = []
 
-# Iteramos ate TAMANHO_GRADE - 1 para podermos pegar o proximo ponto (+1) e fechar o quadrado
 for coord_x in xrange(-TAMANHO_GRADE, TAMANHO_GRADE):
     for coord_z in xrange(-TAMANHO_GRADE, TAMANHO_GRADE):
         
@@ -104,7 +97,6 @@ for coord_x in xrange(-TAMANHO_GRADE, TAMANHO_GRADE):
         lista_poligonos_2d.append(dados_poligono)
 
 
-# Renderização para String
 codigo_svg_final = desenhar_terreno_svg(lista_poligonos_2d, RESOLUCAO_X, RESOLUCAO_Y)
 
 # Salvar no pc
